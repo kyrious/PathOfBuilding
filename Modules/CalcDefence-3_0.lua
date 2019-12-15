@@ -355,21 +355,24 @@ function calcs.defence(env, actor)
 
 	-- Mind over Matter
 	output.MindOverMatter = modDB:Sum("BASE", nil, "DamageTakenFromManaBeforeLife")
-	if output.MindOverMatter and breakdown then
+	if output.MindOverMatter then
 		local sourcePool = output.ManaUnreserved or 0
 		if modDB:Flag(nil, "EnergyShieldProtectsMana") then
 			sourcePool = sourcePool + output.EnergyShield
 		end
 		local lifeProtected = sourcePool / (output.MindOverMatter / 100) * (1 - output.MindOverMatter / 100)
 		local effectiveLife = m_max(output.Life - lifeProtected, 0) + m_min(output.Life, lifeProtected) / (1 - output.MindOverMatter / 100)
-		breakdown.MindOverMatter = {
-			s_format("Total life protected:"),
-			s_format("%d ^8(unreserved mana%s)", sourcePool, modDB:Flag(nil, "EnergyShieldProtectsMana") and " + total energy shield" or ""),
-			s_format("/ %.2f ^8(portion taken from mana)", output.MindOverMatter / 100),
-			s_format("x %.2f ^8(portion taken from life)", 1 - output.MindOverMatter / 100),
-			s_format("= %d", lifeProtected),
-			s_format("Effective life: %d", effectiveLife)
-		}
+		output.EffectiveLife = effectiveLife
+		if breakdown then
+  		breakdown.MindOverMatter = {
+  			s_format("Total life protected:"),
+  			s_format("%d ^8(unreserved mana%s)", sourcePool, modDB:Flag(nil, "EnergyShieldProtectsMana") and " + total energy shield" or ""),
+  			s_format("/ %.2f ^8(portion taken from mana)", output.MindOverMatter / 100),
+  			s_format("x %.2f ^8(portion taken from life)", 1 - output.MindOverMatter / 100),
+  			s_format("= %d", lifeProtected),
+  			s_format("Effective life: %d", effectiveLife)
+  		}
+		end
 	end
 
 	-- Damage taken multipliers/Degen calculations
