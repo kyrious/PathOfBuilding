@@ -1344,7 +1344,8 @@ function calcs.offence(env, actor, activeSkill)
 		keywordFlags = band(skillCfg.keywordFlags, bnot(KeywordFlag.Hit)),
 	}
 	activeSkill.dotCfg = dotCfg
-	output.TotalDot = 0
+  output.TotalDot = 0
+  output.TotalInstanceScaledDot = 0
 	for _, damageType in ipairs(dmgTypeList) do
 		local dotTypeCfg = copyTable(dotCfg, true)
 		dotTypeCfg.keywordFlags = bor(dotTypeCfg.keywordFlags, KeywordFlag[damageType.."Dot"])
@@ -1391,6 +1392,32 @@ function calcs.offence(env, actor, activeSkill)
 				breakdown[damageType.."Dot"] = { }
 				breakdown.dot(breakdown[damageType.."Dot"], baseVal, inc, more, mult, nil, effMult, total)
 			end
+			
+      if skillFlags.dot_scales_with_instances then                
+  			local instanceScaledTotal = total
+        local configHitRate = skillModList:Sum("BASE", cfg, "DotScalingHitrate") / 100
+        local duration = output.DurationMod
+        instanceScaledTotal = instanceScaledTotal * (output.HitSpeed or output.Speed) * configHitRate * duration
+        if skillFlags.totem then
+          instanceScaledTotal = instanceScaledTotal * output.ActiveTotemLimit
+        end
+        
+        output[damageType.."InstanceScaledDot"] = instanceScaledTotal
+        output.TotalInstanceScaledDot = output.TotalInstanceScaledDot + instanceScaledTotal
+        if breakdown then
+          breakdown[damageType.."InstanceScaledDot"] = { }
+          breakdown.multiChain(breakdown[damageType.."InstanceScaledDot"], {
+            { "%.2f ^8(Damage per Instance)", total },
+            { "%.2f ^8(Configured Hit-Rate per Cast)", configHitRate},
+            { "%.2f ^8(Attackrate)", skillFlags.attack and (output.HitSpeed or output.Speed) },
+            { "%.2f ^8(Castrate)", skillFlags.spell and (output.HitSpeed or output.Speed) },
+            { "%.2f ^8(Active Totem Limit)", output.ActiveTotemLimit },
+            total = s_format("= %.1f ^8per second", instanceScaledTotal),
+          })
+        end
+      end
+      
+			
 		end
 	end
 

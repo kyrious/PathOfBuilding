@@ -38,7 +38,11 @@ return {
 		modList:NewMod("MinionModifier", "LIST", { mod = modLib.createMod("Condition:FullLife", "FLAG", true, "Config") }, "Config")
 	end },
 	{ var = "igniteMode", type = "list", label = "Ignite calculation mode:", tooltip = "Controls how the base damage for ignite is calculated:\nAverage Damage: Ignite is based on the average damage dealt, factoring in crits and non-crits.\nCrit Damage: Ignite is based on crit damage only.", list = {{val="AVERAGE",label="Average Damage"},{val="CRIT",label="Crit Damage"}} },
-
+	----
+	{ var = "DotScalingHitrate", type = "count", label = "Dot Scaling Hitrate / 100", apply = function(val, modList, enemyModList)
+		modList:NewMod("DotScalingHitrate", "BASE", val, "Config")
+	end },
+	
 	-- Section: Skill-specific options
 	{ section = "Skill Options", col = 2 },
 	{ label = "Aspect of the Avian:", ifSkill = "Aspect of the Avian" },
