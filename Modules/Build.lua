@@ -245,7 +245,8 @@ function buildMode:Init(dbFileName, buildName, buildXML, targetVersion)
 		{ stat = "CritMultiplier", label = "Crit Multiplier", fmt = "d%%", pc = true, condFunc = function(v,o) return (o.CritChance or 0) > 0 end },
 		{ stat = "HitChance", label = "Hit Chance", fmt = ".0f%%", flag = "attack" },
 		{ stat = "TotalDPS", label = "Total DPS", fmt = ".1f", compPercent = true, flag = "notAverage" },
-		{ stat = "TotalDot", label = "DoT DPS", fmt = ".1f", compPercent = true },
+    { stat = "TotalDot", label = "DoT DPS", fmt = ".1f", compPercent = true , notFlag = "dot_scales_with_instances"},
+    { stat = "TotalInstanceScaledDot", label = "DoT DPS", fmt = ".1f", compPercent = true , flag = "dot_scales_with_instances"},
 		{ stat = "BleedDPS", label = "Bleed DPS", fmt = ".1f", compPercent = true },
 		{ stat = "IgniteDPS", label = "Ignite DPS", fmt = ".1f", compPercent = true },
 		{ stat = "IgniteDamage", label = "Total Damage per Ignite", fmt = ".1f", compPercent = true },
@@ -285,6 +286,11 @@ function buildMode:Init(dbFileName, buildName, buildXML, targetVersion)
 		{ stat = "ManaLeechGainRate", label = "Mana Leech/On Hit Rate", fmt = ".1f", compPercent = true },
 		{ stat = "ManaLeechGainPerHit", label = "Mana Leech/Gain per Hit", fmt = ".1f", compPercent = true },
 		{ },
+    { stat = "EffectiveLife", label = "Effective Life (MoM)", fmt = "d", compPercent = true, condFunc = 
+      function(v,o)
+        return o.MindOverMatter > 0
+      end },
+    { },
 		{ stat = "TotalDegen", label = "Total Degen", fmt = ".1f", lowerIsBetter = true },
 		{ stat = "NetRegen", label = "Net Regen", fmt = "+.1f" },
 		{ stat = "NetLifeRegen", label = "Net Life Regen", fmt = "+.1f" },
@@ -1121,7 +1127,7 @@ function buildMode:AddDisplayStatList(statList, actor)
 	local statBoxList = self.controls.statBox.list
 	for index, statData in ipairs(statList) do
 		if statData.stat then
-			if not statData.flag or actor.mainSkill.skillFlags[statData.flag] then 
+			if (not statData.flag or actor.mainSkill.skillFlags[statData.flag]) and (not (statData.notFlag and actor.mainSkill.skillFlags[statData.notFlag])) then 
 				local statVal = actor.output[statData.stat]
 				if statVal and ((statData.condFunc and statData.condFunc(statVal,actor.output)) or (not statData.condFunc and statVal ~= 0)) then
 					t_insert(statBoxList, {
@@ -1156,7 +1162,7 @@ end
 function buildMode:CompareStatList(tooltip, statList, actor, baseOutput, compareOutput, header, nodeCount)
 	local count = 0
 	for _, statData in ipairs(statList) do
-		if statData.stat and (not statData.flag or actor.mainSkill.skillFlags[statData.flag]) then
+	  if statData.stat and (not statData.flag or actor.mainSkill.skillFlags[statData.flag]) and (not (statData.notFlag and actor.mainSkill.skillFlags[statData.notFlag]))then
 			local statVal1 = compareOutput[statData.stat] or 0
 			local statVal2 = baseOutput[statData.stat] or 0
 			local diff = statVal1 - statVal2
@@ -1179,7 +1185,7 @@ function buildMode:CompareStatList(tooltip, statList, actor, baseOutput, compare
 				end
 				tooltip:AddLine(14, line)
 				count = count + 1
-			end
+  	 end
 		end
 	end
 	return count
