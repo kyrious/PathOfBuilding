@@ -140,6 +140,9 @@ return {
 ["additive_mine_duration_modifiers_apply_to_buff_effect_duration"] = {
 	skill("mineDurationAppliesToSkill", true),
 },
+["additive_arrow_speed_modifiers_apply_to_area_of_effect"] = {
+	skill("arrowSpeedAppliesToAreaOfEffect", true),
+},
 ["base_use_life_in_place_of_mana"] = {
 	flag("SkillBloodMagic"),
 },
@@ -603,6 +606,11 @@ return {
 ["shock_effect_+%"] = {
 	mod("EnemyShockEffect", "INC", nil),
 },
+["non_damaging_ailment_effect_+%"] = {
+	mod("EnemyChillEffect", "INC", nil),
+	mod("EnemyShockEffect", "INC", nil),
+	mod("EnemyFreezeEffect", "INC", nil),
+},
 ["base_poison_duration_+%"] = {
 	mod("EnemyPoisonDuration", "INC", nil),
 },
@@ -649,6 +657,11 @@ return {
 },
 ["active_skill_ignite_damage_+%_final"] = {
 	mod("Damage", "MORE", nil, 0, KeywordFlag.Ignite),
+},
+["damaging_ailments_deal_damage_+%_faster"] = {
+	mod("BleedFaster", "INC", nil),
+	mod("PoisonFaster", "INC", nil),
+	mod("IgniteBurnFaster", "INC", nil),
 },
 -- Global flags
 ["never_ignite"] = {
@@ -704,6 +717,9 @@ return {
 ["chance_to_be_knocked_back_%"] = {
 	mod("SelfKnockbackChance", "BASE", nil),
 },
+["number_of_additional_curses_allowed"] = {
+	mod("EnemyCurseLimit", "BASE", nil),
+},
 -- Projectiles
 ["base_projectile_speed_+%"] = {
 	mod("ProjectileSpeed", "INC", nil),
@@ -720,6 +736,9 @@ return {
 ["always_pierce"] = {
 	flag("PierceAllTargets"),
 },
+["cannot_pierce"] = {
+	flag("CannotPierce"),
+},
 ["base_number_of_additional_arrows"] = {
 	mod("ProjectileCount", "BASE", nil),
 },
@@ -728,6 +747,9 @@ return {
 },
 ["number_of_chains"] = {
 	mod("ChainCountMax", "BASE", nil),
+},
+["additional_beam_only_chains"] = {
+	mod("BeamChainCountMax", "BASE", nil),
 },
 ["projectiles_always_pierce_you"] = {
 	flag("AlwaysPierceSelf"),
@@ -1021,6 +1043,9 @@ return {
 },
 ["number_of_additional_totems_allowed"] = {
 	mod("ActiveTotemLimit", "BASE", nil),
+},
+["attack_skills_additional_ballista_totems_allowed"] = {
+	mod("ActiveTotemLimit", "BASE", nil, ModFlag.Attack),
 },
 ["base_number_of_totems_allowed"] = {
 	mod("ActiveTotemLimit", "BASE", nil),

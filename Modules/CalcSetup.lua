@@ -57,6 +57,7 @@ function calcs.initModDB(env, modDB)
 	modDB:NewMod("UnholyMight", "FLAG", true, "Base", { type = "Condition", var = "UnholyMight" })
 	modDB:NewMod("Tailwind", "FLAG", true, "Base", { type = "Condition", var = "Tailwind" })
 	modDB:NewMod("Adrenaline", "FLAG", true, "Base", { type = "Condition", var = "Adrenaline" })
+	modDB:NewMod("LuckyHits", "FLAG", true, "Base", { type = "Condition", var = "LuckyHits" })
 	modDB.conditions["Buffed"] = env.mode_buffs
 	modDB.conditions["Combat"] = env.mode_combat
 	modDB.conditions["Effective"] = env.mode_effective
@@ -551,7 +552,7 @@ function calcs.initEnv(build, mode, override)
 			local group
 			for index, socketGroup in pairs(build.skillsTab.socketGroupList) do
 				if socketGroup.source == grantedSkill.source and socketGroup.slot == grantedSkill.slotName then
-					if socketGroup.gemList[1] and socketGroup.gemList[1].skillId == grantedSkill.skillId then
+					if socketGroup.gemList[1] and socketGroup.gemList[1].skillId == grantedSkill.skillId and socketGroup.gemList[1].level == grantedSkill.level then
 						group = socketGroup
 						markList[socketGroup] = true
 						break
@@ -564,7 +565,7 @@ function calcs.initEnv(build, mode, override)
 				t_insert(build.skillsTab.socketGroupList, group)
 				markList[group] = true
 			end
-
+			
 			-- Update the group
 			group.sourceItem = grantedSkill.sourceItem
 			local activeGemInstance = group.gemList[1] or {
@@ -711,6 +712,15 @@ function calcs.initEnv(build, mode, override)
 									supportEffect.superseded = true
 								end
 								break
+							elseif grantedEffect.plusVersionOf == otherSupport.grantedEffect.id then
+								add = false
+								if env.mode == "MAIN" then
+									otherSupport.superseded = true
+								end
+								supportList[index] = supportEffect
+							elseif otherSupport.grantedEffect.plusVersionOf == grantedEffect.id then
+								add = false
+								supportEffect.superseded = true
 							end
 						end
 						if add then

@@ -21,6 +21,8 @@ local skills, mod, flag, skill = ...
 			mod("Damage", "MORE", nil, 0, 0, { type = "PerStat", stat = "ChainRemaining" }),
 		},
 	},
+#baseMod flag("Condition:CanBeLucky")
+#baseMod mod("Dummy", "DUMMY", 1, 0, 0, { type = "Condition", var = "CanBeLucky" })
 #mods
 
 #skill ArcticBreath
@@ -889,6 +891,9 @@ local skills, mod, flag, skill = ...
 		["zombie_slam_cooldown_speed_+%"] = {
 			mod("MinionModifier", "LIST", { mod = mod("CooldownRecovery", "INC", nil, 0, 0, { type = "SkillId", skillId = "ZombieSlam" }) }),
 		},
+		["zombie_slam_area_of_effect_+%"] = {
+			mod("MinionModifier", "LIST", { mod = mod("AreaOfEffect", "INC", nil, 0, 0, { type = "SkillId", skillId = "ZombieSlam" }) }),
+		},
 	},
 #mods
 
@@ -1001,7 +1006,7 @@ local skills, mod, flag, skill = ...
 #skill Soulrend
 #flags spell projectile duration
 #baseMod skill("debuff", true)
-#baseMod skill("radius", 13)
+#baseMod skill("radius", 10)
 #mods
 
 #skill Spark

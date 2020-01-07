@@ -1,3 +1,69 @@
+[1.4.157.1][2019/12/21]
+ * Added a new unique item, The Savior
+ * Added the ability to show only non-Awakened supports (or only Awakened supports!); the option can be found in the
+   Skills tab under the socket group list
+ * Added sources of increased maximum resistances to now show up in the resistance breakdown window
+ * Add unique changes from 3.7
+ * Fix issue where gem levels would get reset on loading or importing a build
+ * Implicits on items that are copied from in-game are now correctly handled. Additionally, the ability of the program 
+   to determine if modifiers on copied items are enchantments, implicits or explicits has been greatly improved, 
+   and should almost always be correct; also, applying enchantments to items with implicits will now work correctly.
+ * Fix + gem level mods on new influence amulets to now work properly
+ * Fix Fractal Thoughts increased dex mod to now work properly
+ * Fix support for old Red Nightmare mod wording
+ * Fix ailment calculation crash
+[1.4.155.1][2019/12/16]
+ * Added the following new gems:
+    * Artillery Ballista
+	* Ensnaring Arrow
+	* Shrapnel Ballista
+	* Arrow Nova
+	* Barrage (does not give accurate damage numbers)
+	* Greater Volley
+	* The 35 new Awakened support gems
+ * Applied the skill reworks and balance changes for 3.9.0
+ * Updated item bases, mods, and enchantments for 3.9.0
+ * Added new influence bases to crafting window
+ * Fix all Oils on tree to have correct values
+ * Add more detailed breakdown for shock and chill
+[1.4.153.2][2019/12/14]
+ * Re-add Oils to tree
+ * Add support for Ghost Shrouds
+ * Add support for increased Ancestor Totem buff effect
+ * Add support for Ritual of Awakening Hierophant node
+ * Add support for 3 mods on Watchers Eye
+ * Add Impale damage to Combined DPS sort option
+ * Update Boss resistance values to 3.9 levels
+ * Add Bleed DPS to sorting option
+ * Add new spectres to the spectre library
+	* Kraityn's Sentry, Chrome-infused Chimeral, Vaal Slayer, Primeval Hunter, Archer Statue, Crazed Driver
+ * Add new spectre skills to library
+	* Blast Rain, Elemental Hit Fire, Barrage, Ice Shot, Unearth, Tornado Shot, Flame Surge
+ * Fix mod support for Chains of Command
+ * Add Astral Projector Unique Ring (3.9 preview)
+ * Fix rage granting damage to unarmed attacks
+ * Fix UI on passive tree being too large for some resolutions
+ * Fix node power not respecting your colour choice for highlighting
+ * Add area tag to Perforate
+ * Fix uniques with duplicate mods
+ * Re-add Death's Harp back in
+ * Update Snakepit Unique Ring
+[1.4.153.1][2019/12/12]
+ * Add 3.9 Passive Tree
+ * Add 3.9 Unique Changes
+ * Add support for Ryslathas Coil
+ * Add support for Perquils Toe
+ * Add support for Vaal Arc Lucky Buff
+ * Add support for Chain of Command's mods
+ * Add support for Warcried recently
+ * Fix Minion DPS sorting bug for Uniques and tree
+ * Fix Toxic Rain/Rain of Arrows pierce bug
+ * Fix radius calculation for Jewels 
+ * Fix Impale calculations for certain skills
+      * Barrage, Blade Flurry, Blast Rain, Double Strike, Lacerate, Scourge Arrow,
+  	    Cleave, Dual Strike, Riposte, Viper Strike, Static Strike
+ * Counter-attack skills now show proper damage for each hit instead of DPS when using Impale
+ * Update many uniques that had incorrect wordings
 VERSION[1.4.152.8][2019/12/09]
  * Add Support for Greater Spell Echo
  * Widen manage passives trees drop down box
@@ -40,10 +106,10 @@ VERSION[1.4.152.6][2019/12/02]
  * Fix totem limits
  * Fix elemental hit threshold gems again
  * Fix double damage on heavy strike
- * Fix minion resistance on raise spectre gem
- * Fix bones of ullur mod
+ * Fix minion resistance on Raise Spectre gem
+ * Fix Bones of Ullur mod
  * Fix Perandus Signet mod
- * Fix red nightmare block chance
+ * Fix Red Nightmare block chance
  * Trim image file sizes
 VERSION[1.4.152.5][2019/10/08]
  * Withered debuff now appears on the config page
